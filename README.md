@@ -1,6 +1,6 @@
 # superblocks-london
 
-This github respository contains code for street network analysis in London based on centrality metrics, to investigate the potential implementation of the superblocks model. The analysis is based on open data so the procedure could be applied to other cities. 
+This respository contains code for street network analysis in London based on centrality metrics, to investigate the potential implementation of the superblocks model. The analysis is based on open data so the procedure could be applied to other cities. 
 
 The files are structured as follows:
 
