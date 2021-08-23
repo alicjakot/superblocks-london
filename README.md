@@ -22,11 +22,11 @@ code for producing maps of centralities
 **6)** clustering.R </br>
 K-means clustering based on centralities metrics
 
-Data was extracted from the following sources: </br>
-ULEZ21 boundary </br>
+**Data** was extracted from the following sources: </br>
+<li>ULEZ21 boundary </li> </br>
 https://data.london.gov.uk/dataset/ultra_low_emissions_zone_expansion_new</br>
 </br>
-POI - Ordnance Survey </br>
+<li>POI - Ordnance Survey </li> </br>
 available upon request (can be skipped if not calculating weighted eigenvector)
 
 
