@@ -49,7 +49,8 @@ tm_shape(nodesCloseness1200)+
 # so need to modify my edgesDrive df to have a new column with an average closeness
 # centrality for nodes
 
-# a new column with a number of nodes within an edge
+# a new column for street closeness that will be calculated as
+# an average of two adjacent nodes and an id column
 edgesCloseness1200 <- transform(edgesDrive, closeness1200 = 0) %>% 
   mutate(id = row_number())
 
@@ -83,7 +84,7 @@ for (e in 1:nrow(edgesCloseness1200)){
 #   }
 # }
 
-# plot it
+# plot it the centrality on the edges
 tm_shape(edgesCloseness1200)+
   tm_lines(col='closeness1200',
            palette = "Blues",
@@ -96,6 +97,11 @@ tm_shape(edgesCloseness1200)+
 
 
 ###### 400 m ######
+
+
+
+# repeat previous steps but for a cutoff distance of 400 m
+
 
 # calculate closeness centrality for nodes within 400 m distance
 closeness400 = gDrive %>% 
@@ -155,10 +161,6 @@ tm_shape(edgesCloseness400)+
 
 ### BETWEENNESS WITH STREET_LENGHTH AS A WEIGHT
 
-edgesDF <- gDriveSimple %>%
-  activate("edges") %>%
-  st_as_sf()
-
 # calculate betweenness centrality with street length as weight
 gDriveEdges = gDrive %>%
   activate("edges") %>%
@@ -166,7 +168,13 @@ gDriveEdges = gDrive %>%
   mutate(betCentLength = centrality_edge_betweenness(weights = weight, directed = FALSE, cutoff = NULL)) %>% 
   st_as_sf()
 
-# scale to 0-1 values (there is a function in tidygraph that does it
+
+# change values to range 0-1
+# define a function to do this
+range01 <- function(x){(x-min(x))/(max(x)-min(x))}
+
+
+# scale to 0-1 values (there is also a function in tidygraph that does it
 # while calculating the centrality)
 gDriveEdges$betCentLength <- gDriveEdges$betCentLength %>%
   range01(.)

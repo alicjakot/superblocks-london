@@ -6,7 +6,7 @@ library(tmap)
 ### easier
 
 # one data set with all the centralities
-edgesFinal <-  data.frame(edgesSF, gDriveBet$betCentGlobal, gDriveBet1200$betCentLength1200, gDriveBet400$betCentLength400,
+edgesFinal <-  data.frame(edgesDrive, gDriveBet$betCentGlobal, gDriveBet1200$betCentLength1200, gDriveBet400$betCentLength400,
                           edgesCloseness1200$closeness1200,edgesCloseness400$closeness400, edgesEigen$meanEigen, 
                           edgesEigenLW$meanEigenLW)
 

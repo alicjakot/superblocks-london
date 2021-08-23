@@ -78,7 +78,7 @@ ggsave('final_poi_density.png', plot =map_poi_density )
 ###### ADDING A NUMBER OF POI TO STREETS IN THE NETWORK #######
 
 
-# I need to add a number of points of interests on a street 
+# add a number of points of interests on a street 
 # as an edge attribute
 
 # transform network's crs to british to match points of interest
@@ -111,44 +111,44 @@ poi_on_edge <- poiOK2 %>%
 poi_on_edge2 <- poi_on_edge %>% 
   count(edge)
 
-# rename the columns so can do the merge to edgesSF and drop geometry
+# rename the columns so can do the merge to edgesDrive (defined in previous workbook) 
+# and drop geometry
 poi_on_edge2 <- poi_on_edge2 %>% 
   st_drop_geometry() %>% 
   rename(id=edge, no_of_pois=n)
 
 # merge into edgesSF2
-edgesSF2=merge(edgesSF, poi_on_edge2, by = "id", all = TRUE)
+edgesDrive2=merge(edgesDrive, poi_on_edge2, by = "id", all = TRUE)
 
 # replace NAs with 0
-edgesSF2$no_of_pois <- edgesSF2$no_of_pois %>% 
+edgesDrive$no_of_pois <- edgesSF2$no_of_pois %>% 
   replace_na(0)
 
 # add a new weight column with a number of pois divided by a length
 # of a street
-edgesSF2 <- edgesSF2 %>% 
-  # mutate(weight_poi10000=(no_of_pois/weight)*10000)
+edgesDrive2 <- edgesDrive2 %>% 
   mutate(weight_poi_norm=(no_of_pois/weight))
 
 
 # see the distribution of this weight 
 
 # histogram - normalised
-ggplot(edgesSF2, aes(x=weight_poi_norm)) + 
+ggplot(edgesDrive2, aes(x=weight_poi_norm)) + 
   geom_histogram(binwidth=0.5)
 
 # histogram - number of pois
-ggplot(edgesSF2, aes(x=no_of_pois)) + 
+ggplot(edgesDrive2, aes(x=no_of_pois)) + 
   geom_histogram(binwidth=10)
 
 # summary statistics
-summary(edgesSF2$weight_poi_norm)
-summary(edgesSF2$no_of_pois)
+summary(edgesDrive2$weight_poi_norm)
+summary(edgesDrive2$no_of_pois)
 
 # boxplot
-boxplot(edgesSF2$weight_poi_norm,
+boxplot(edgesDrive2$weight_poi_norm,
         ylab = "weighted poi norm")
 
-boxplot(edgesSF2$no_of_pois,
+boxplot(edgesDrive2$no_of_pois,
         ylab = "weighted poi norm")
 
 # histogram suggests the data is very skewed
@@ -158,7 +158,7 @@ skewness(edgesSF2$no_of_pois)
 
 
 # add this information to the network
-gDrive2 <- st_join(gDrive, edgesSF2)
+gDrive2 <- st_join(gDrive, edgesDrive2)
 gDrive2
 
 # extract edges to an sf object

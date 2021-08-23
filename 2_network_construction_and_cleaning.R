@@ -23,7 +23,7 @@ edgesShpDrive <- st_read(here("data",
                               "edges.shp"))
 
 # length is a built in function in R so need to rename it, 
-# otherwise it throws error while calculating centralities
+# otherwise it will throw error while calculating centralities
 edgesShpDrive <- edgesShpDrive %>% 
   dplyr::rename(
     weight = length)
@@ -71,6 +71,8 @@ nodesDrive <- gDrive %>%
 ### simplify network
 # get rid of multiple and edges (edges that connect the same pair of nodes, 
 # or start and end at the same node)
+
+# this is optional as OSMnx performs topological correction and simplification automatically
 
 gDriveSimple = gDrive %>%
   activate("edges") %>%

@@ -49,9 +49,26 @@ boxplot(clust$bet_global,
 
 # check for potential outliers with boxplot
 boxplot.stats(clust$bet_global)$out
-# so many values I don't know what to do with it, not what I expected
 
-# percentiles method from this website https://statsandr.com/blog/outliers-detection-in-r/
+# IQR method
+quantile(clust$bet_global)
+iqrBG <- iqr(clust$bet_global)
+iqrBG
+
+sum(clust$bet_global > 3*iqrBG)
+
+# so if a value is above this its considered an extreme outlier
+3*iqrBG
+
+# looking for a value to change the outliers values with
+# outliers have values bigger than 3.513.198
+upBG <- quantile(clustIQR$bet_global, c(.8, .85, .9, .95))
+upBG
+
+percentile85BG <- quantile(clust$bet_global,.85)
+
+
+# percentiles method based on methods from this website https://statsandr.com/blog/outliers-detection-in-r/
 lower_bound <- quantile(clust$bet_global, 0.025)
 lower_bound
 # if something is below 0 than it is an outlier, but no negative values
@@ -320,7 +337,7 @@ var(clust3$ei_lw)
 
 # ------------------------------------------------------
 
-# Clustering Attempt
+# Clustering 
 
 # ------------------------------------------------------
 
